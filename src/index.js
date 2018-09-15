@@ -5,8 +5,18 @@ import './index.css';
 class Card extends React.Component {
   constructor(props){
     super(props);
-    //this.
+
+    this.state = {
+      flipped: false,
+      matched: false
+    };
   }
+
+  handleClick(e){
+    var flipped = this.state.flipped;
+    this.setState({flipped: !flipped});
+  }
+
   render() {
     return (
       <div className="Card">
