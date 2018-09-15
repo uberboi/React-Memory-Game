@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 class Card extends React.Component {
+  constructor(props){
+    super(props);
+    //this.
+  }
   render() {
     return (
       <div className="Card">
@@ -13,11 +17,12 @@ class Card extends React.Component {
 }
 
 class Game extends React.Component {
+  /*
   constructor(props){
     super(props);
     this.renderCards = this.renderCards.bind(this);
   }
-
+  */
   renderCards(cardVals){
     return cardVals.map((cardVal, index) => {
       return (
