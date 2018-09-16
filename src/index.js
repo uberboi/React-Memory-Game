@@ -28,6 +28,7 @@ class Game extends React.Component {
   constructor(props){
     super(props);
     this.renderCards = this.renderCards.bind(this);
+    this.checkMatch = this.checkMatch.bind(this);
 
     this.state = {
       cards: [
@@ -51,28 +52,7 @@ class Game extends React.Component {
     //var cards = this.state.cards;
     //cards[i].flipped = !cards[i].flipped;
     //this.setState({cards});
-    var cards = this.state.cards;
-    const value = cards[i].value;
-    cards[i].flipped = true;
-    this.setState({cards});
-    if(this.state.firstCard){
-      if(value === cards[this.state.firstCard].value){
-        cards[i].matched = true;
-        cards[this.state.firstCard].matched = true
-        this.setState({cards, firstCard: null});
-      }else{
-        setTimeout(() => {
-          cards[i].flipped = false;
-          cards[this.state.firstCard].flipped = false;
-          this.setState({cards, firstCard: null});
-        }, 1000);
-      }
-    }else{
-      this.setState({
-        firstCard: i
-      });
-    }
-
+    this.checkMatch(i);
   }
 
   renderCards(cards){
@@ -91,25 +71,42 @@ class Game extends React.Component {
   }
 
   checkMatch(id){
-    var cards = this.state.cards;
-    const value = cards[id].value;
-    cards[id].flipped = true;
-    this.setState({cards});
-    if(this.state.firstCard){
-      if(value === this.state.firstCard.value){
-        cards[id].matched = true;
-        cards[this.state.firstCard.id].matched = true;
+    //Check for card match logic
+    //if seleced card is not same as first card
+    if(id !== this.state.firstCard){
+      var cards = this.state.cards;
+      const value = cards[id].value;
+      //flip selected card
+      cards[id].flipped = true;
+      this.setState({cards});
+      //If first card has already been selected then check for match
+      if(this.state.firstCard){
+        //if cards match, then set to true
+        if(value === cards[this.state.firstCard].value){
+          cards[id].matched = true;
+          cards[this.state.firstCard].matched = true
+          this.setState({
+            cards,
+            firstCard: null
+          });
+        //If cards dont match then flip back over
+        }else{
+          //Timer before cards flip back to see result
+          setTimeout(() => {
+            cards[id].flipped = false;
+            cards[this.state.firstCard].flipped = false;
+            this.setState({
+              cards,
+              firstCard: null
+            });
+          }, 1000);
+        }
+      //First card selected
       }else{
-        setTimeout(() => {
-          cards[id.flipped] = false;
-          cards[this.state.firstCard.id].flipped = false;
-          this.setState({cards, firstCard: null});
-        }, 1000);
+        this.setState({
+          firstCard: id
+        });
       }
-    }else{
-      this.setState({
-        firstCard: id
-      });
     }
   }
 
