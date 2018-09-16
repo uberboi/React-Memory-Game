@@ -35,27 +35,40 @@ class Card extends React.Component {
 }
 
 class Game extends React.Component {
-  /*
   constructor(props){
     super(props);
     this.renderCards = this.renderCards.bind(this);
+
+    this.state = {
+      cards: [
+        {value : 5},
+        {value : 2},
+        {value : 4},
+        {value : 1},
+        {value : 1},
+        {value : 3},
+        {value : 4},
+        {value : 2},
+        {value : 3},
+        {value : 5},
+      ]
+    }
   }
-  */
-  renderCards(cardVals){
-    return cardVals.map((cardVal, index) => {
+
+  renderCards(cards){
+    return cardVals.map((cards, index) => {
       return (
-        <Card key={index} value={cardVal} />
+        <Card key={index} value={card.value} />
       );
     });
   }
 
   render() {
-    var cards = [5, 2, 4, 1, 1, 3, 4, 2, 3, 5];
     return (
       <div className="game">
         <h1 className="game-title">Memory Game</h1>
         <div className="game-board">
-          {this.renderCards(cards)}
+          {this.renderCards(this.state.cards)}
         </div>
       </div>
     );
