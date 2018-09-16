@@ -7,7 +7,8 @@ body {
 .Card {
   float: left;
   width: 4rem;
-  height: 8rem;
+  height: 6rem;
+  line-height: 6rem;
   padding: 1rem;
   margin: 1rem;
   border: 1px solid black;
