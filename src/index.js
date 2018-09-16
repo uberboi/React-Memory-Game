@@ -3,30 +3,17 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 class Card extends React.Component {
-  constructor(props){
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-
-    this.state = {
-      flipped: false,
-      matched: false
-    };
-  }
-
-  handleClick(e){
-    this.setState({flipped: !this.state.flipped});
-  }
 
   render() {
-    var cardValue = this.state.flipped ? this.props.value : '';
+    var cardValue = this.props.flipped ? this.props.value : '';
     var cardClass = "Card";
-    if(this.state.flipped){
+    if(this.props.flipped){
         cardClass += " Card--flipped";
     }
     return (
       <div
         className = {cardClass}
-        onClick={this.handleClick}
+        onClick={() => this.props.onClick(this.props.id)}
       >
         {cardValue}
       </div>
@@ -41,24 +28,38 @@ class Game extends React.Component {
 
     this.state = {
       cards: [
-        {value : 5},
-        {value : 2},
-        {value : 4},
-        {value : 1},
-        {value : 1},
-        {value : 3},
-        {value : 4},
-        {value : 2},
-        {value : 3},
-        {value : 5},
+        {value : 5, matched : false, flipped : false},
+        {value : 2, matched : false, flipped : false},
+        {value : 4, matched : false, flipped : false},
+        {value : 1, matched : false, flipped : false},
+        {value : 1, matched : false, flipped : false},
+        {value : 3, matched : false, flipped : false},
+        {value : 4, matched : false, flipped : false},
+        {value : 2, matched : false, flipped : false},
+        {value : 3, matched : false, flipped : false},
+        {value : 5, matched : false, flipped : false},
       ]
     }
   }
 
+  handleClick(i){
+    //this.state.cards[i] = this.setState({flipped: !this.state.flipped});
+    var cards = this.state.cards;
+    cards[i].flipped = !cards[i].flipped;
+    this.setState({cards});
+  }
+
   renderCards(cards){
-    return cards.map((cards, index) => {
+    return cards.map((card, index) => {
       return (
-        <Card key={index} value={cards.value} />
+        <Card
+          key={index}
+          id={index}
+          value={card.value}
+          matched={card.matched}
+          flipped={card.flipped}
+          onClick={i => this.handleClick(i)}
+        />
       );
     });
   }
