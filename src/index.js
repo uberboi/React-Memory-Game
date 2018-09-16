@@ -56,9 +56,9 @@ class Game extends React.Component {
   }
 
   renderCards(cards){
-    return cardVals.map((cards, index) => {
+    return cards.map((cards, index) => {
       return (
-        <Card key={index} value={card.value} />
+        <Card key={index} value={cards.value} />
       );
     });
   }
