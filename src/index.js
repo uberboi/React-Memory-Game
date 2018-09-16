@@ -46,19 +46,40 @@ class Game extends React.Component {
     this.checkMatch(i);
   }
 
-  renderCards(cards){
-    return cards.map((card, index) => {
+  createGrid(cards){
+    const grid = [];
+    //Calculate number of rows of 6
+    let rows = cards.length/6
+    //Card counter to track index
+    let cardCounter = 0;
+    for(let i=0; i<rows; i++){
+      const row = [];
+      //Calculate row length
+      //Cap length at 6 if more than 6 cards left
+      //Otherwise use remaning cards
+      const rowLength = (cards.length - (6*i) >= 6) ? 6 : cards.length - (6*i);
+      for(let j=0; j<rowLength; j++){
+        row.push(this.renderCards(cardCounter));
+        cardCounter++;
+      }
+      grid.push(<div key={i} className="grid-row">{row}</div>)
+    };
+    return grid;
+  }
+
+  renderCards(index){
+    //return cards.map((card, index) => {
       return (
         <Card
           key={index}
           id={index}
-          value={card.value}
-          matched={card.matched}
-          flipped={card.flipped}
+          value={this.state.cards[index].value}
+          matched={this.state.cards[index].matched}
+          flipped={this.state.cards[index].flipped}
           onClick={i => this.handleClick(i)}
         />
       );
-    });
+    //});
   }
 
   checkMatch(id){
@@ -127,9 +148,7 @@ class Game extends React.Component {
       <div className="game">
         <h1 className="game-title">Memory Game</h1>
         <div className="game-board">
-          <Grid>
-          {this.renderCards(this.state.cards)}
-          </Grid>
+          {this.createGrid(this.state.cards)}
         </div>
         <button onClick={() => this.reset()}>New Game</button>
       </div>
@@ -153,18 +172,20 @@ function initialCards(){
   }
   */
   var cards = [
-    {value : 5, matched : false, flipped : true},
-    {value : 2, matched : false, flipped : true},
-    {value : 4, matched : false, flipped : true},
-    {value : 1, matched : false, flipped : true},
-    {value : 1, matched : false, flipped : true},
-    {value : 3, matched : false, flipped : true},
-    {value : 4, matched : false, flipped : true},
-    {value : 2, matched : false, flipped : true},
-    {value : 3, matched : false, flipped : true},
-    {value : 5, matched : false, flipped : true},
+    {value : 5, matched : false, flipped : false},
+    {value : 2, matched : false, flipped : false},
+    {value : 4, matched : false, flipped : false},
+    {value : 1, matched : false, flipped : false},
+    {value : 1, matched : false, flipped : false},
+    {value : 3, matched : false, flipped : false},
+    {value : 4, matched : false, flipped : false},
+    {value : 2, matched : false, flipped : false},
+    {value : 3, matched : false, flipped : false},
+    {value : 5, matched : false, flipped : false},
+    {value : 6, matched : false, flipped : false},
+    {value : 6, matched : false, flipped : false},
   ];
-  //shuffle(cards);
+  shuffle(cards);
   return cards;
 }
 

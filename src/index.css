@@ -22,3 +22,9 @@ body {
 .Card--matched {
    background-color: green;
 }
+
+.grid-row:after {
+  clear: both;
+  content: '';
+  display: table;
+}
