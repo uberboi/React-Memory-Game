@@ -29,20 +29,10 @@ class Game extends React.Component {
     super(props);
     this.renderCards = this.renderCards.bind(this);
     this.checkMatch = this.checkMatch.bind(this);
+    this.reset = this.reset.bind(this);
 
     this.state = {
-      cards: [
-        {value : 5, matched : false, flipped : false},
-        {value : 2, matched : false, flipped : false},
-        {value : 4, matched : false, flipped : false},
-        {value : 1, matched : false, flipped : false},
-        {value : 1, matched : false, flipped : false},
-        {value : 3, matched : false, flipped : false},
-        {value : 4, matched : false, flipped : false},
-        {value : 2, matched : false, flipped : false},
-        {value : 3, matched : false, flipped : false},
-        {value : 5, matched : false, flipped : false},
-      ],
+      cards: initialCards(),
       firstCard: null,
       locked: false
     };
@@ -123,13 +113,25 @@ class Game extends React.Component {
     }
   }
 
+  //Function to reset Game
+  reset(){
+      this.setState({
+        cards: initialCards(),
+        firstCard: null,
+        locked: false
+      });
+  }
+
   render() {
     return (
       <div className="game">
         <h1 className="game-title">Memory Game</h1>
         <div className="game-board">
+          <Grid>
           {this.renderCards(this.state.cards)}
+          </Grid>
         </div>
+        <button onClick={() => this.reset()}>New Game</button>
       </div>
     );
   }
@@ -139,3 +141,37 @@ ReactDOM.render(
   <Game />,
   document.getElementById('root')
 );
+
+function initialCards(){
+  /*
+  var cards = [];
+  for(let i=0; i<3; i++){
+    cards.push(
+      {value : i, matched : false, flipped : true},
+      {value : i, matched : false, flipped : true},
+    );
+  }
+  */
+  var cards = [
+    {value : 5, matched : false, flipped : true},
+    {value : 2, matched : false, flipped : true},
+    {value : 4, matched : false, flipped : true},
+    {value : 1, matched : false, flipped : true},
+    {value : 1, matched : false, flipped : true},
+    {value : 3, matched : false, flipped : true},
+    {value : 4, matched : false, flipped : true},
+    {value : 2, matched : false, flipped : true},
+    {value : 3, matched : false, flipped : true},
+    {value : 5, matched : false, flipped : true},
+  ];
+  //shuffle(cards);
+  return cards;
+}
+
+function shuffle(array) {
+  for(let i = array.length-1; i>0; i--) {
+    const j = Math.floor(Math.random() * (i+1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
