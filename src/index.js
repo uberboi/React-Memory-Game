@@ -43,8 +43,9 @@ class Game extends React.Component {
         {value : 3, matched : false, flipped : false},
         {value : 5, matched : false, flipped : false},
       ],
-      firstCard: null
-    }
+      firstCard: null,
+      locked: false
+    };
   }
 
   handleClick(i){
@@ -71,23 +72,33 @@ class Game extends React.Component {
   }
 
   checkMatch(id){
+    //If cards not yet flipped back over,
+    //dont allow other cards to be flipped
+    if(this.state.locked){
+      return;
+    }
     //Check for card match logic
     //if seleced card is not same as first card
-    if(id !== this.state.firstCard){
-      var cards = this.state.cards;
-      const value = cards[id].value;
+    //and selected card is not already matched
+    var cards = this.state.cards;
+    if(id !== this.state.firstCard && cards[id].matched === false){
+      const value = cards[id].value
       //flip selected card
       cards[id].flipped = true;
-      this.setState({cards});
+      this.setState({
+        cards,
+        locked: true
+      });
       //If first card has already been selected then check for match
-      if(this.state.firstCard){
+      if(this.state.firstCard !== null){
         //if cards match, then set to true
         if(value === cards[this.state.firstCard].value){
           cards[id].matched = true;
           cards[this.state.firstCard].matched = true
           this.setState({
             cards,
-            firstCard: null
+            firstCard: null,
+            locked: false
           });
         //If cards dont match then flip back over
         }else{
@@ -97,14 +108,16 @@ class Game extends React.Component {
             cards[this.state.firstCard].flipped = false;
             this.setState({
               cards,
-              firstCard: null
+              firstCard: null,
+              locked: false
             });
           }, 1000);
         }
       //First card selected
       }else{
-        this.setState({
-          firstCard: id
+        this. setState({
+          firstCard: id,
+          locked: false
         });
       }
     }
