@@ -13,3 +13,11 @@ body {
   border: 1px solid black;
   text-align: center;
 }
+
+.Card--flipped {
+  background-color: gray;
+}
+
+.Card--matched {
+   background-color: green;
+}

@@ -5,6 +5,7 @@ import './index.css';
 class Card extends React.Component {
   constructor(props){
     super(props);
+    this.handleClick = this.handleClick.bind(this);
 
     this.state = {
       flipped: false,
@@ -13,14 +14,21 @@ class Card extends React.Component {
   }
 
   handleClick(e){
-    var flipped = this.state.flipped;
-    this.setState({flipped: !flipped});
+    this.setState({flipped: !this.state.flipped});
   }
 
   render() {
+    var cardValue = this.state.flipped ? this.props.value : '';
+    var cardClass = "Card";
+    if(this.state.flipped){
+        cardClass += " Card--flipped";
+    }
     return (
-      <div className="Card">
-        {this.props.value}
+      <div
+        className = {cardClass}
+        onClick={this.handleClick}
+      >
+        {cardValue}
       </div>
     );
   }
@@ -45,7 +53,7 @@ class Game extends React.Component {
     var cards = [5, 2, 4, 1, 1, 3, 4, 2, 3, 5];
     return (
       <div className="game">
-        <div>Memory Game</div>
+        <h1 className="game-title">Memory Game</h1>
         <div className="game-board">
           {this.renderCards(cards)}
         </div>
