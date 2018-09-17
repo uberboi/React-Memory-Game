@@ -32,9 +32,11 @@ class Game extends React.Component {
     this.reset = this.reset.bind(this);
 
     this.state = {
-      cards: initialCards(),
+      cards: initialCards(0),
       firstCard: null,
-      locked: false
+      locked: false,
+      cardMatches: 0,
+      gridSize: 0
     };
   }
 
@@ -46,10 +48,10 @@ class Game extends React.Component {
     this.checkMatch(i);
   }
 
-  createGrid(cards){
+  createGrid(cards, gridSize){
     const grid = [];
     //Calculate number of rows of 6
-    let rows = cards.length/6
+    let rows = cards.length/gridSize
     //Card counter to track index
     let cardCounter = 0;
     for(let i=0; i<rows; i++){
@@ -57,7 +59,7 @@ class Game extends React.Component {
       //Calculate row length
       //Cap length at 6 if more than 6 cards left
       //Otherwise use remaning cards
-      const rowLength = (cards.length - (6*i) >= 6) ? 6 : cards.length - (6*i);
+      const rowLength = (cards.length - (gridSize*i) >= gridSize) ? gridSize : cards.length - (gridSize*i);
       for(let j=0; j<rowLength; j++){
         row.push(this.renderCards(cardCounter));
         cardCounter++;
@@ -105,11 +107,12 @@ class Game extends React.Component {
         //if cards match, then set to true
         if(value === cards[this.state.firstCard].value){
           cards[id].matched = true;
-          cards[this.state.firstCard].matched = true
+          cards[this.state.firstCard].matched = true;
           this.setState({
             cards,
             firstCard: null,
-            locked: false
+            locked: false,
+            cardMatches: this.state.cardMatches + 1
           });
         //If cards dont match then flip back over
         }else{
@@ -126,7 +129,7 @@ class Game extends React.Component {
         }
       //First card selected
       }else{
-        this. setState({
+        this.setState({
           firstCard: id,
           locked: false
         });
@@ -136,21 +139,41 @@ class Game extends React.Component {
 
   //Function to reset Game
   reset(){
-      this.setState({
-        cards: initialCards(),
-        firstCard: null,
-        locked: false
-      });
+    var gridSize = document.getElementById("difficulty").value;
+    if(gridSize == 0){
+      alert("Please Select a Difficulty!");
+    }
+    this.setState({
+      cards: initialCards((gridSize*gridSize)/2),
+      firstCard: null,
+      locked: false,
+      cardMatches: 0,
+      gridSize: gridSize
+    });
   }
 
   render() {
+    var txt = '';
+    if(this.state.cardMatches === this.state.cards.length/2){
+      //txt = 'You Win!';
+    }
+
     return (
       <div className="game">
         <h1 className="game-title">Memory Game</h1>
-        <div className="game-board">
-          {this.createGrid(this.state.cards)}
-        </div>
         <button onClick={() => this.reset()}>New Game</button>
+          <div className="custom-select">
+            <select id="difficulty">
+              <option value="0">Select Difficulty:</option>
+              <option value="4">Easy (4x4)</option>
+              <option value="6">Medium (6x6)</option>
+              <option value="8">Hard (8x8)</option>
+            </select>
+          </div>
+        <h2 className="status-text">{txt}</h2>
+        <div className="game-board">
+          {this.createGrid(this.state.cards, this.state.gridSize)}
+        </div>
       </div>
     );
   }
@@ -161,31 +184,15 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-function initialCards(){
-  /*
+function initialCards(gridSize){
   var cards = [];
-  for(let i=0; i<3; i++){
+  for(let i=0; i<gridSize; i++){
     cards.push(
       {value : i, matched : false, flipped : true},
       {value : i, matched : false, flipped : true},
     );
   }
-  */
-  var cards = [
-    {value : 5, matched : false, flipped : false},
-    {value : 2, matched : false, flipped : false},
-    {value : 4, matched : false, flipped : false},
-    {value : 1, matched : false, flipped : false},
-    {value : 1, matched : false, flipped : false},
-    {value : 3, matched : false, flipped : false},
-    {value : 4, matched : false, flipped : false},
-    {value : 2, matched : false, flipped : false},
-    {value : 3, matched : false, flipped : false},
-    {value : 5, matched : false, flipped : false},
-    {value : 6, matched : false, flipped : false},
-    {value : 6, matched : false, flipped : false},
-  ];
-  shuffle(cards);
+  //shuffle(cards);
   return cards;
 }
 

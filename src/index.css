@@ -6,9 +6,9 @@ body {
 
 .Card {
   float: left;
-  width: 4rem;
-  height: 6rem;
-  line-height: 6rem;
+  width: 2rem;
+  height: 3rem;
+  line-height: 3rem;
   padding: 1rem;
   margin: 1rem;
   border: 1px solid black;
@@ -27,4 +27,9 @@ body {
   clear: both;
   content: '';
   display: table;
+}
+
+.status-text {
+  display: inline;
+  padding: 1rem;
 }
