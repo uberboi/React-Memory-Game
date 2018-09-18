@@ -149,7 +149,7 @@ class Game extends React.Component {
   //Function to reset Game
   reset(){
     var gridSize = document.getElementById("difficulty").value;
-    if(gridSize == 0){
+    if(gridSize === 0){
       alert("Please Select a Difficulty!");
     }
     this.setState({
@@ -163,7 +163,7 @@ class Game extends React.Component {
 
   render() {
     var txt = '';
-    if(this.state.cardMatches === this.state.cards.length/2 && this.state.cards.length != 0){
+    if(this.state.cardMatches === this.state.cards.length/2 && this.state.cards.length !== 0){
       txt = 'You Win!';
     }
 
