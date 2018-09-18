@@ -16,11 +16,17 @@ body {
 }
 
 .Card--flipped {
-  background-color: gray;
+  background-color: #acf9f9;
 }
 
 .Card--matched {
-   background-color: green;
+   background-color: blue;
+}
+
+.Card--back{
+  background-color: #00ccd6;
+  background-image: linear-gradient(90deg, transparent 50%, rgba(255,255,255,.5) 50%);
+  background-size: 15px 15px;
 }
 
 .grid-row:after {
@@ -31,5 +37,26 @@ body {
 
 .status-text {
   display: inline;
-  padding: 1rem;
+  margin-left: 1rem;
+}
+
+.status-score {
+  width: 50%;
+  padding: 10;
+  text-align: center;
+  margin: 1rem;
+}
+
+.game-title {
+  width: 50%;
+  background: linear-gradient(178deg, rgba(19,104,249) 0%,rgba(242,255,255) 100%);
+  padding: 10px;
+  text-align: center;
+  border-radius: 30em;
+  border: 2px solid black;
+  margin: 1rem;
+}
+
+.custom-select, .new-game-button {
+  margin-left: 1rem;
 }

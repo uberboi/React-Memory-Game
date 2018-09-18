@@ -10,7 +10,9 @@ class Card extends React.Component {
     if(this.props.matched){
       cardClass += " Card--matched";
     }else if(this.props.flipped){
-        cardClass += " Card--flipped";
+      cardClass += " Card--flipped";
+    }else{
+      cardClass += " Card--back";
     }
 
     return (
@@ -36,7 +38,8 @@ class Game extends React.Component {
       firstCard: null,
       locked: false,
       cardMatches: 0,
-      gridSize: 0
+      gridSize: 0,
+      score: 0
     };
   }
 
@@ -108,11 +111,17 @@ class Game extends React.Component {
         if(value === cards[this.state.firstCard].value){
           cards[id].matched = true;
           cards[this.state.firstCard].matched = true;
+          const cardMatches = this.state.cardMatches + 1;
+          var score = this.state.score;
+          if(cardMatches === this.state.cards.length/2){
+            score += 1;
+          }
           this.setState({
             cards,
             firstCard: null,
             locked: false,
-            cardMatches: this.state.cardMatches + 1
+            cardMatches: cardMatches,
+            score: score
           });
         //If cards dont match then flip back over
         }else{
@@ -154,14 +163,15 @@ class Game extends React.Component {
 
   render() {
     var txt = '';
-    if(this.state.cardMatches === this.state.cards.length/2){
-      //txt = 'You Win!';
+    if(this.state.cardMatches === this.state.cards.length/2 && this.state.cards.length != 0){
+      txt = 'You Win!';
     }
 
     return (
       <div className="game">
         <h1 className="game-title">Memory Game</h1>
-        <button onClick={() => this.reset()}>New Game</button>
+        <h2 className="status-score">{'Games Won: ' + this.state.score}</h2>
+        <button className="new-game-button" onClick={() => this.reset()}>New Game</button>
           <div className="custom-select">
             <select id="difficulty">
               <option value="0">Select Difficulty:</option>
@@ -188,11 +198,11 @@ function initialCards(gridSize){
   var cards = [];
   for(let i=0; i<gridSize; i++){
     cards.push(
-      {value : i, matched : false, flipped : true},
-      {value : i, matched : false, flipped : true},
+      {value : i, matched : false, flipped : false},
+      {value : i, matched : false, flipped : false},
     );
   }
-  //shuffle(cards);
+  shuffle(cards);
   return cards;
 }
 
